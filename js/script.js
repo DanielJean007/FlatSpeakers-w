@@ -1,20 +1,14 @@
-document.addEventListener('DOMContentLoaded', () =>
-{
+document.addEventListener('DOMContentLoaded', () => {
     // Scroll section functionality
     const sections = document.querySelectorAll('.scroll-section');
     let currentSection = 0;
 
-    const showSection = (index) =>
-    {
-        if (index >= 0 && index < sections.length)
-        {
-            sections.forEach((section, i) =>
-            {
-                if (i === index)
-                {
+    const showSection = (index) => {
+        if (index >= 0 && index < sections.length) {
+            sections.forEach((section, i) => {
+                if (i === index) {
                     section.classList.add('active');
-                } else
-                {
+                } else {
                     section.classList.remove('active');
                 }
             });
@@ -22,24 +16,19 @@ document.addEventListener('DOMContentLoaded', () =>
         }
     };
 
-    const debounce = (func, delay) =>
-    {
+    const debounce = (func, delay) => {
         let timeout;
-        return (...args) =>
-        {
+        return (...args) => {
             clearTimeout(timeout);
             timeout = setTimeout(() => func.apply(this, args), delay);
         };
     };
 
-    const scrollHandler = debounce((event) =>
-    {
-        if (event.deltaY > 0)
-        {
+    const scrollHandler = debounce((event) => {
+        if (event.deltaY > 0) {
             // Scroll down
             showSection(currentSection + 1);
-        } else
-        {
+        } else {
             // Scroll up
             showSection(currentSection - 1);
         }
@@ -53,17 +42,14 @@ document.addEventListener('DOMContentLoaded', () =>
     let xDown = null;
     let yDown = null;
 
-    function handleTouchStart(evt)
-    {
+    function handleTouchStart(evt) {
         const firstTouch = evt.touches[0];
         xDown = firstTouch.clientX;
         yDown = firstTouch.clientY;
     }
 
-    function handleTouchMove(evt)
-    {
-        if (!xDown || !yDown)
-        {
+    function handleTouchMove(evt) {
+        if (!xDown || !yDown) {
             return;
         }
 
@@ -73,17 +59,13 @@ document.addEventListener('DOMContentLoaded', () =>
         const xDiff = xDown - xUp;
         const yDiff = yDown - yUp;
 
-        if (Math.abs(xDiff) > Math.abs(yDiff))
-        {
+        if (Math.abs(xDiff) > Math.abs(yDiff)) {
             // Horizontal swipe (do nothing)
-        } else
-        {
-            if (yDiff > 0)
-            {
+        } else {
+            if (yDiff > 0) {
                 // Swipe up
                 showSection(currentSection + 1);
-            } else
-            {
+            } else {
                 // Swipe down
                 showSection(currentSection - 1);
             }
@@ -93,10 +75,8 @@ document.addEventListener('DOMContentLoaded', () =>
         yDown = null;
     }
 
-    document.querySelectorAll('.nav-menu button').forEach((button, index) =>
-    {
-        button.addEventListener('click', () =>
-        {
+    document.querySelectorAll('.nav-menu button').forEach((button, index) => {
+        button.addEventListener('click', () => {
             showSection(index);
             closeMenu(); // Close the menu on selection
         });
@@ -107,154 +87,130 @@ document.addEventListener('DOMContentLoaded', () =>
     // Initially show the first section
     showSection(0);
 
-    document.addEventListener('click', (event) =>
-    {
-        if (!event.target.closest('.fixed-nav'))
-        {
+    document.addEventListener('click', (event) => {
+        if (!event.target.closest('.fixed-nav')) {
             closeMenu();
         }
     });
 
     // Carousel functionality
-    const carouselPanels = document.querySelectorAll('.carousel-panel');
-    const loadingBars = document.querySelectorAll('.loading-bar');
-    const dots = document.querySelectorAll('.dot');
-    let currentPanel = 0;
-    let interval;
-    let progress = 0;
+    const carousels = document.querySelectorAll('.carousel');
+    carousels.forEach((carousel) => {
+        const carouselPanels = carousel.querySelectorAll('.carousel-panel');
+        const loadingBars = carousel.querySelectorAll('.loading-bar');
+        const dots = carousel.parentElement.querySelectorAll('.dot');
+        let currentPanel = 0;
+        let interval;
+        let progress = 0;
 
-    const showPanel = (index) =>
-    {
-        carouselPanels.forEach((panel, i) =>
-        {
-            if (i === index)
-            {
-                panel.classList.add('active');
-                loadingBars[i].style.width = '0%';
-                dots[i].classList.add('active');
-                progress = 0;
-            } else
-            {
-                panel.classList.remove('active');
-                loadingBars[i].style.width = '0%';
-                dots[i].classList.remove('active');
+        const showPanel = (index) => {
+            carouselPanels.forEach((panel, i) => {
+                if (i === index) {
+                    panel.classList.add('active');
+                    loadingBars[i].style.width = '0%';
+                    if (dots[i]) dots[i].classList.add('active');
+                    progress = 0;
+                } else {
+                    panel.classList.remove('active');
+                    loadingBars[i].style.width = '0%';
+                    if (dots[i]) dots[i].classList.remove('active');
+                }
+            });
+        };
+
+        const updateLoadingBar = () => {
+            if (progress < 100) {
+                progress += 0.2;
+                loadingBars[currentPanel].style.width = `${progress}%`;
+            } else {
+                nextPanel();
             }
+        };
+
+        const nextPanel = () => {
+            clearInterval(interval);
+            progress = 0;
+            currentPanel = (currentPanel + 1) % carouselPanels.length;
+            showPanel(currentPanel);
+            interval = setInterval(updateLoadingBar, 30);
+        };
+
+        const prevPanel = () => {
+            clearInterval(interval);
+            progress = 0;
+            currentPanel = (currentPanel - 1 + carouselPanels.length) % carouselPanels.length;
+            showPanel(currentPanel);
+            interval = setInterval(updateLoadingBar, 30);
+        };
+
+        const pauseCarousel = () => {
+            clearInterval(interval);
+        };
+
+        const resumeCarousel = () => {
+            interval = setInterval(updateLoadingBar, 30);
+        };
+
+        carousel.addEventListener('touchstart', (e) => {
+            pauseCarousel();
         });
-    };
 
-    const updateLoadingBar = () =>
-    {
-        if (progress < 100)
-        {
-            progress += 0.2;
-            loadingBars[currentPanel].style.width = `${progress}%`;
-        } else
-        {
-            nextPanel();
-        }
-    };
+        carousel.addEventListener('touchend', (e) => {
+            resumeCarousel();
+        });
 
-    const nextPanel = () =>
-    {
-        clearInterval(interval);
-        progress = 0;
-        currentPanel = (currentPanel + 1) % carouselPanels.length;
-        showPanel(currentPanel);
+        carousel.addEventListener('mousedown', (e) => {
+            pauseCarousel();
+        });
+
+        carousel.addEventListener('mouseup', (e) => {
+            resumeCarousel();
+        });
+
         interval = setInterval(updateLoadingBar, 30);
-    };
 
-    const prevPanel = () =>
-    {
-        clearInterval(interval);
-        progress = 0;
-        currentPanel = (currentPanel - 1 + carouselPanels.length) % carouselPanels.length;
-        showPanel(currentPanel);
-        interval = setInterval(updateLoadingBar, 30);
-    };
+        // Swipe functionality for carousel
+        let startX;
+        const handleSwipe = (startX, endX) => {
+            if (startX - endX > 50) {
+                // Swipe left
+                nextPanel();
+            } else if (endX - startX > 50) {
+                // Swipe right
+                prevPanel();
+            }
+        };
 
-    const pauseCarousel = () =>
-    {
-        clearInterval(interval);
-    };
+        carousel.addEventListener('touchstart', (e) => {
+            startX = e.touches[0].clientX;
+        });
 
-    const resumeCarousel = () =>
-    {
-        interval = setInterval(updateLoadingBar, 30);
-    };
+        carousel.addEventListener('touchend', (e) => {
+            const endX = e.changedTouches[0].clientX;
+            handleSwipe(startX, endX);
+        });
 
-    document.querySelector('.carousel').addEventListener('touchstart', (e) =>
-    {
-        pauseCarousel();
+        // Functions for navigating panels with arrows
+        carousel.parentElement.querySelector('.left-arrow').addEventListener('click', prevPanel);
+        carousel.parentElement.querySelector('.right-arrow').addEventListener('click', nextPanel);
     });
-
-    document.querySelector('.carousel').addEventListener('touchend', (e) =>
-    {
-        resumeCarousel();
-    });
-
-    document.querySelector('.carousel').addEventListener('mousedown', (e) =>
-    {
-        pauseCarousel();
-    });
-
-    document.querySelector('.carousel').addEventListener('mouseup', (e) =>
-    {
-        resumeCarousel();
-    });
-
-    interval = setInterval(updateLoadingBar, 30);
-
-    // Swipe functionality for carousel
-    let startX;
-    const handleSwipe = (startX, endX) =>
-    {
-        if (startX - endX > 50)
-        {
-            // Swipe left
-            nextPanel();
-        } else if (endX - startX > 50)
-        {
-            // Swipe right
-            prevPanel();
-        }
-    };
-
-    document.querySelector('.carousel').addEventListener('touchstart', (e) =>
-    {
-        startX = e.touches[0].clientX;
-    });
-
-    document.querySelector('.carousel').addEventListener('touchend', (e) =>
-    {
-        const endX = e.changedTouches[0].clientX;
-        handleSwipe(startX, endX);
-    });
-
-    // Functions for navigating panels with arrows
-    window.nextPanel = nextPanel;
-    window.prevPanel = prevPanel;
-    window.showPanel = showPanel;
 });
 
-function contactUs()
-{
+function contactUs() {
     alert('Booking a private demo...');
 }
 
-function toggleMenu()
-{
+function toggleMenu() {
     const menuItems = document.querySelector('.menu-items');
     menuItems.classList.toggle('open');
 }
 
-function closeMenu()
-{
+function closeMenu() {
     const menuItems = document.querySelector('.menu-items');
     menuItems.classList.remove('open');
 }
 
-function showVideo(videoPath)
-{
+function showVideo(videoPath) {
     const videoModal = document.createElement('div');
     videoModal.classList.add('video-modal');
     videoModal.innerHTML = `
@@ -269,16 +225,13 @@ function showVideo(videoPath)
     document.body.appendChild(videoModal);
 }
 
-function closeVideo()
-{
+function closeVideo() {
     const videoModal = document.querySelector('.video-modal');
-    if (videoModal)
-    {
+    if (videoModal) {
         document.body.removeChild(videoModal);
     }
 }
 
-function details(videoPath)
-{
+function details(videoPath) {
     showVideo(videoPath);
 }

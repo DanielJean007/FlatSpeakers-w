@@ -20,7 +20,7 @@
                 <div class="menu-items">
                     <button aria-label="Flat Speakers" onclick="scrollToSection('section1')">Flat Speakers</button>
                     <button aria-label="Features" onclick="scrollToSection('section2')">Features</button>
-                    <button aria-label="Version" onclick="scrollToSection('section3')">Versions</button>
+                    <button aria-label="Version" onclick="scrollToSection('section3')">Prices</button>
                     <button aria-label="Applications" onclick="scrollToSection('section4')">Applications</button>
                     <button aria-label="Demos" onclick="scrollToSection('section5')">Demos</button>
                 </div>
@@ -37,7 +37,8 @@
         <section id="section1" class="scroll-section">
             <div class="main-container">
                 <p class="main-description"> 
-                    Flat Speakers employ advanced DML technology to deliver affordable, high-fidelity sound in an elegant, ultra-slim form factor. Seamlessly integrating into any space, Flat Speakers allow you to use them as a canvas for your imagination.
+                    We employ advanced DML technology to deliver affordable, high-fidelity sound in an elegant, ultra-slim form factor.
+                    Seamlessly integrating into any space, we allow you to use Flat Speakers as a canvas for your imagination.
                 </p>
                 
                 <div class="models-section">
@@ -61,18 +62,18 @@
 
         <section id="section2" class="scroll-section">
             <div class="main-container">                
-                <h2 class="advantages-title">Advantages</h2>
+                <h2 class="advantages-title">Features</h2>
                 <div class="carousel-dots">
-                    <span class="dot" onclick="showPanel(0)"></span>
-                    <span class="dot" onclick="showPanel(1)"></span>
-                    <span class="dot" onclick="showPanel(2)"></span>
-                    <span class="dot" onclick="showPanel(3)"></span>
-                    <span class="dot" onclick="showPanel(4)"></span>
-                    <span class="dot" onclick="showPanel(5)"></span>
-                    <span class="dot" onclick="showPanel(6)"></span>
-                    <span class="dot" onclick="showPanel(7)"></span>
+                    <span class="dot" onclick="showPanel(0, 'carousel1')"></span>
+                    <span class="dot" onclick="showPanel(1, 'carousel1')"></span>
+                    <span class="dot" onclick="showPanel(2, 'carousel1')"></span>
+                    <span class="dot" onclick="showPanel(3, 'carousel1')"></span>
+                    <span class="dot" onclick="showPanel(4, 'carousel1')"></span>
+                    <span class="dot" onclick="showPanel(5, 'carousel1')"></span>
+                    <span class="dot" onclick="showPanel(6, 'carousel1')"></span>
+                    <span class="dot" onclick="showPanel(7, 'carousel1')"></span>
                 </div>
-                <div class="carousel">
+                <div class="carousel" id="carousel1">
                     <div class="carousel-panel active">
                         <div class="loading-bar"></div>
                         <h3>Balanced Response Across Frequencies</h3>
@@ -169,24 +170,66 @@
                     </div>
                 </div>
                 <div class="carousel-nav">
-                    <div class="carousel-arrow left-arrow" onclick="prevPanel()">❮</div>
-                    <div class="carousel-arrow right-arrow" onclick="nextPanel()">❯</div>
+                    <div class="carousel-arrow left-arrow" onclick="prevPanel('carousel1')">❮</div>
+                    <div class="carousel-arrow right-arrow" onclick="nextPanel('carousel1')">❯</div>
                 </div>
-                <!-- <div class="carousel-dots">
-                    <span class="dot" onclick="showPanel(0)"></span>
-                    <span class="dot" onclick="showPanel(1)"></span>
-                    <span class="dot" onclick="showPanel(2)"></span>
-                    <span class="dot" onclick="showPanel(3)"></span>
-                    <span class="dot" onclick="showPanel(4)"></span>
-                    <span class="dot" onclick="showPanel(5)"></span>
-                    <span class="dot" onclick="showPanel(6)"></span>
-                    <span class="dot" onclick="showPanel(7)"></span>
-                </div> -->
             </div>
         </section>
 
         <section id="section3" class="scroll-section">
             <div class="main-container">
+                <h2 class="advantages-title">Prices</h2>
+                <div class="carousel-dots">
+                    <span class="dot" onclick="showPanel(0, 'carousel2')"></span>
+                    <span class="dot" onclick="showPanel(1, 'carousel2')"></span>
+                </div>
+                <div class="carousel" id="carousel2">
+                    <div class="carousel-panel active">
+                        <div class="loading-bar"></div>
+                        <div class="two-column">
+                            <div>
+                                <h3>Mono</h3>
+                                <p class="secondary-description">
+                                    One Deep Bass or Ultra Slim model starting at AU$180.
+                                </p>
+                            </div>
+                            <div>
+                                <h3>Stereo</h3>
+                                <p class="secondary-description">
+                                    Two (Left and Right) Deep Bass or Ultra Slim model starting at AU$280.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="carousel-panel">
+                        <div class="loading-bar"></div>
+                        <div class="two-column">
+                            <div>
+                                <h3>Included</h3>
+                                <ul class="modern-bullet-list">
+                                    <li>Flat Speaker</li>
+                                    <li>Power Supply 12Vdc 3A</li>
+                                    <li>Connection Cables</li>
+                                    <li>Dampening structure</li>
+                                    <li>Painted finishing. Feel free to choose the color</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h3>Optionals</h3>
+                                <ul class="modern-bullet-list">
+                                    <li>Tripod</li>
+                                    <li>Wall mount</li>
+                                    <li>Cover with art, portraits, phrases, etc</li>
+                                    <li>LED backed panel</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-nav">
+                    <div class="carousel-arrow left-arrow" onclick="prevPanel('carousel2')">❮</div>
+                    <div class="carousel-arrow right-arrow" onclick="nextPanel('carousel2')">❯</div>
+                </div>
             </div>
         </section>
 

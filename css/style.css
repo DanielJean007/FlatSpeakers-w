@@ -284,12 +284,44 @@ video {
 
 .carousel {
     border-radius: 10px;
-    background-color: #c9c9c946;
+    background-color: #ffffff;
     position: relative;
     width: 80%;
     height: 70%;
     margin: 0 auto;
     overflow: hidden;
+}
+
+#section3 .carousel {
+    width: 80%;
+    height: 50%;
+}
+
+.two-column {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.modern-bullet-list {
+    list-style: none;
+    padding: 4%;
+    margin: 0;
+    text-align: left;
+}
+
+.modern-bullet-list li {
+    position: relative;
+    padding-left: 25px;
+    margin-bottom: 10px;
+}
+
+.modern-bullet-list li::before {
+    content: '✔️';
+    color: green;
+    position: absolute;
+    left: 0;
+    top: 0;
 }
 
 .loading-bar {
@@ -544,5 +576,33 @@ video {
         border-radius: 10px;
         width: 100%;
         height: 100%;
+    }
+
+    #section3 .carousel {
+        width: 90%;
+        height: auto;
+        padding: 2%;
+    }
+
+    #section3 .carousel-panel {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 10px;
+    }
+
+    #section3 .carousel-panel h3 {
+        width: 100%;
+        text-align: left;
+        margin: 5px 0;
+    }
+
+    #section3 .modern-bullet-list {
+        width: 100%;
+    }
+
+    #section3 .carousel-panel.active {
+        position: relative;
+        opacity: 1;
+        width: 100%;
     }
 }
